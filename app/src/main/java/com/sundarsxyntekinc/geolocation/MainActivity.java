@@ -18,7 +18,10 @@ import com.google.android.gms.location.LocationServices;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
     private final String LOG_TAG = "SundarTestLocationApp";
-    private TextView txtOutput;
+    private TextView txtOutput1;
+    private TextView txtOutput2;
+    private TextView txtOutput3;
+    private TextView txtOutput4;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
 
@@ -27,7 +30,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
-        txtOutput = (TextView)findViewById(R.id.txtOutput);
+        txtOutput1 = (TextView)findViewById(R.id.txtOutput1);
+        txtOutput2 = (TextView)findViewById(R.id.txtOutput2);
+        txtOutput3 = (TextView)findViewById(R.id.txtOutput3);
+        txtOutput4 = (TextView)findViewById(R.id.txtOutput4);
     }
 
     @Override
@@ -65,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onLocationChanged(Location location){
         Log.i(LOG_TAG,location.toString());
-        txtOutput.setText(location.toString());
+        txtOutput1.setText(Double.toString(location.getLatitude()));
+        txtOutput2.setText(Double.toString(location.getLongitude()));
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, LocationListener{
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener{
 
     private final String LOG_TAG = "SundarTestLocationApp";
     private TextView txtOutput1;
@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView txtOutput3;
     private TextView txtOutput4;
     private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+    //private LocationRequest mLocationRequest;
+    private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +58,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if(mGoogleApiClient.isConnected())
         mGoogleApiClient.disconnect();
     }
-
+// Single Location Update
     @Override
     public void onConnected(Bundle bundle){
 
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(10000);
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if(mLastLocation!= null){
+            txtOutput1.setText(Double.toString(mLastLocation.getLatitude()));
+            txtOutput2.setText(Double.toString(mLastLocation.getLongitude()));
+        }
     }
 
-    @Override
-    public void onLocationChanged(Location location){
-        Log.i(LOG_TAG,location.toString());
-        txtOutput1.setText(Double.toString(location.getLatitude()));
-        txtOutput2.setText(Double.toString(location.getLongitude()));
-    }
 
     @Override
     public void onConnectionSuspended(int i){

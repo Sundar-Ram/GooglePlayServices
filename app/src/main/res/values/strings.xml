@@ -5,5 +5,7 @@
     <string name="hello_world2">Longitude Goes Here</string>
     <string name="hello_world3">Latitude: </string>
     <string name="hello_world4">Longitude: </string>
+    <string name="hello_world5">CityName Goes Here </string>
+    <string name="hello_world6">Location: </string>
     <string name="action_settings">Settings</string>
 </resources>

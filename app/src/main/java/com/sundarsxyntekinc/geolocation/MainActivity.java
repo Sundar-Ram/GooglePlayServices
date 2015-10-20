@@ -5,6 +5,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -91,22 +93,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             String cityName = null;
             Geocoder gcd = new Geocoder(getApplicationContext(), Locale.getDefault());
             List<Address> addresses;
-
+            ArrayList<String> addressFragments = new ArrayList<String>();
+            String fulladdr;
             try{
                 addresses = gcd.getFromLocation(latitude,longitude,1);
+                Address myAddr = addresses.get(0);
                 if(addresses.size() > 0) {
-                    cityName = addresses.get(0).getLocality();
-                    
-                    System.out.println(addresses.get(0).getAddressLine(0));
-                    System.out.println(addresses.get(0).getAddressLine(1));
-                    System.out.println(addresses.get(0).getLocality());
-                    System.out.println(addresses.get(0).getLocale());
+                    cityName = myAddr.getLocality();
+
+                    for (int i=0; i < myAddr.getMaxAddressLineIndex(); i++)
+                    {
+                        addressFragments.add(myAddr.getAddressLine(i));
+                    }
+                    fulladdr = TextUtils.join(",",addressFragments);
+                    System.out.println(myAddr.getAddressLine(0));
+                    System.out.println(myAddr.getAddressLine(1));
+                    System.out.println(myAddr.getLocality());
+                    System.out.println(myAddr.getLocale());
+                    System.out.println(addressFragments);
+                    System.out.println(fulladdr);
+                    txtOutput5.setText(fulladdr);
                 }
             }catch (IOException e){
                 e.printStackTrace();
             }
 
-            txtOutput5.setText(cityName);
+
 
 
 
